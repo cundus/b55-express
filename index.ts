@@ -1,5 +1,5 @@
-const express = require("express");
-const dotenv = require("dotenv");
+import express from "express";
+import dotenv from "dotenv";
 
 // inisialisasi dotenv
 dotenv.config();
@@ -8,8 +8,8 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.get("/", (req, res) => {
-   res.send("Hello World, ini adalah aplikasi express");
+app.get("/", (req: express.Request, res: express.Response) => {
+   res.send("Hello World, ini adalah aplikasi express boyuyyyyy!!!");
 });
 
 app.listen(port, () => {
