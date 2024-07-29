@@ -1,32 +1,29 @@
 import { PostModels } from "../models/PostModels";
-import BaseService from "./BaseService";
 
-class PostService extends BaseService<PostModels> {
-   public posts: PostModels[] = [];
+const posts: PostModels[] = [];
 
-   findAll(): PostModels[] {
-      return this.posts;
-   }
+export const findAll = () => {
+   return posts;
+};
 
-   findOne(id: number): PostModels | null {
-      return this.posts[id];
-   }
+export const findById = (id: number) => {
+   return posts[id];
+};
 
-   create(title: string, body: string): PostModels {
-      const post = new PostModels(title, body);
-      this.posts.push(post);
-      return post;
-   }
+export const create = (post: PostModels) => {
+   posts.push(post);
 
-   update(id: number, title: string, body: string): PostModels | null {
-      const post = new PostModels(title, body);
-      this.posts[id] = post;
-      return post;
-   }
+   return post;
+};
 
-   delete(id: number): void {
-      this.posts.splice(id, 1);
-   }
-}
+export const update = (index: number, post: PostModels) => {
+   posts[index] = post;
 
-export default PostService;
+   return post;
+};
+
+export const remove = (index: number) => {
+   posts.splice(index, 1);
+
+   return "deleted";
+};

@@ -1,29 +1,15 @@
-import BaseRoute from "./BaseRoute";
-import express from "express";
-// controllers
-import PostController from "../controllers/PostController";
+import { Router } from "express";
+import * as postController from "../controllers/PostController";
+const postRoute = Router();
 
-// services
-import PostService from "../services/PostService";
+postRoute.get("/", postController.findAll);
 
-class PostRoute extends BaseRoute {
-   protected postController: PostController;
+postRoute.get("/:id", postController.findById);
 
-   constructor() {
-      super();
-      const postService = new PostService();
-      this.postController = new PostController(postService);
-   }
+postRoute.post("/", postController.create);
 
-   protected initializeRoutes() {
-      console.log("post route", this.postController);
+postRoute.put("/:id", postController.update);
 
-      // this.router.get("/posts", this.postController.findAll);
-      // this.router.get("/posts/:id", this.postController.findOne);
-      // this.router.post("/posts", this.postController.create);
-      // this.router.put("/posts/:id", this.postController.update);
-      // this.router.delete("/posts/:id", this.postController.delete);
-   }
-}
+postRoute.delete("/:id", postController.remove);
 
-export default PostRoute;
+export default postRoute;
