@@ -1,16 +1,20 @@
 import PostService from "../services/PostService";
-import BaseController from "./BaseController";
-import { Response, Request } from "express";
+import { BaseController } from "./BaseController";
+import { Response, Request, NextFunction } from "express";
 
 class PostController extends BaseController {
-   public postServices: PostService;
+   private postServices: PostService;
 
-   constructor() {
+   constructor(postService: PostService) {
       super();
-      this.postServices = new PostService();
+      console.log("post controller", postService);
+
+      this.postServices = postService;
    }
 
    public findAll(req: Request, res: Response) {
+      console.log(this.postServices);
+
       res.send(this.postServices.findAll());
    }
 

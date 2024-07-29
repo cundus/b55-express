@@ -9,11 +9,13 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // routes
-app.use("/posts", PostRoute);
 
 app.get("/", (req: express.Request, res: express.Response) => {
    res.send("Hello World, ini adalah aplikasi express boyuyyyyy!!!");
 });
+
+const post = new PostRoute();
+app.use(post.router);
 
 app.listen(port, () => {
    console.log("APLIKASINYA UDAH JALAN BANG");

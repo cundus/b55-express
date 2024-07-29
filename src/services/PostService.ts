@@ -1,30 +1,30 @@
 import { PostModels } from "../models/PostModels";
 import BaseService from "./BaseService";
 
-class PostService extends BaseService {
+class PostService extends BaseService<PostModels> {
    public posts: PostModels[] = [];
 
-   public findAll() {
+   findAll(): PostModels[] {
       return this.posts;
    }
 
-   public findOne(id: number) {
+   findOne(id: number): PostModels | null {
       return this.posts[id];
    }
 
-   public create(title: string, body: string) {
+   create(title: string, body: string): PostModels {
       const post = new PostModels(title, body);
       this.posts.push(post);
       return post;
    }
 
-   public update(id: number, title: string, body: string) {
+   update(id: number, title: string, body: string): PostModels | null {
       const post = new PostModels(title, body);
       this.posts[id] = post;
       return post;
    }
 
-   public delete(id: number) {
+   delete(id: number): void {
       this.posts.splice(id, 1);
    }
 }
