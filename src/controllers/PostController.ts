@@ -1,18 +1,21 @@
 import * as postService from "../services/PostService";
 import { Request, Response } from "express";
 
-export const findAll = (req: Request, res: Response) => {
-   const posts = postService.findAll();
+export const findAll = async (req: Request, res: Response) => {
+   const posts = await postService.findAll();
    res.json(posts);
 };
 
-export const findById = (req: Request, res: Response) => {
-   const post = postService.findById(parseInt(req.params.id));
+export const findById = async (req: Request, res: Response) => {
+   const post = await postService.findById(parseInt(req.params.id));
    res.json(post);
 };
 
-export const create = (req: Request, res: Response) => {
-   const post = postService.create(req.body);
+export const create = async (req: Request, res: Response) => {
+   const userId = res.locals.user.id;
+   req.body.userId = userId;
+
+   const post = await postService.create(req.body);
    res.json(post);
 };
 

@@ -1,19 +1,32 @@
 import { PostModels } from "../models/PostModels";
+import db from "../libs/db";
+import { Posts } from "@prisma/client";
 
 const posts: PostModels[] = [];
 
-export const findAll = () => {
-   return posts;
+export const findAll = async () => {
+   return await db.posts.findMany({
+      // join table
+      include: {
+         author: true,
+      },
+   });
 };
 
-export const findById = (id: number) => {
-   return posts[id];
+export const findById = async (id: number) => {
+   return await db.posts.findFirst({
+      where: { id },
+      // join table
+      include: {
+         author: true,
+      },
+   });
 };
 
-export const create = (post: PostModels) => {
-   posts.push(post);
+export const create = async (post: Posts) => {
+   const newPost = await db.posts.create({ data: post });
 
-   return post;
+   return newPost;
 };
 
 export const update = (index: number, post: PostModels) => {

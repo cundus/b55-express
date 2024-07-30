@@ -1,12 +1,13 @@
 import { Router } from "express";
 import * as postController from "../controllers/PostController";
+import authorization from "../middlewares/authorization";
 const postRoute = Router();
 
 postRoute.get("/", postController.findAll);
 
 postRoute.get("/:id", postController.findById);
 
-postRoute.post("/", postController.create);
+postRoute.post("/", authorization, postController.create);
 
 postRoute.put("/:id", postController.update);
 
