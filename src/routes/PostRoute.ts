@@ -11,7 +11,7 @@ postRoute.get("/:id", postController.findById);
 postRoute.post(
    "/",
    authorization,
-   upload.single("image"),
+   upload.array("image"),
    postController.create
 );
 

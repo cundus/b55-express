@@ -23,11 +23,21 @@ model User {
 }
 
 model Posts {
-  id     Int     @id @default(autoincrement())
-  title  String
-  body   String?
-  image  String?
-  userId Int
+  id       Int     @id @default(autoincrement())
+  title    String
+  body     String?
+  userId   Int
+  parentId Int?
 
-  author User @relation(fields: [userId], references: [id])
+  post     Posts?      @relation("PostReplies", fields: [parentId], references: [id])
+  comments Posts[]     @relation("PostReplies")
+  author   User        @relation(fields: [userId], references: [id])
+  images   PostImage[]
+}
+
+model PostImage {
+  id     Int    @id @default(autoincrement())
+  image  String
+  postId Int
+  post   Posts  @relation(fields: [postId], references: [id])
 }
