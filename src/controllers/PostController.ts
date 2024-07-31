@@ -1,5 +1,7 @@
+import { createPostSchema } from "../libs/validations/post";
 import * as postService from "../services/PostService";
 import { Request, Response } from "express";
+import errorHandler from "../utils/errorHandler";
 
 export const findAll = async (req: Request, res: Response) => {
    const posts = await postService.findAll();
@@ -12,11 +14,25 @@ export const findById = async (req: Request, res: Response) => {
 };
 
 export const create = async (req: Request, res: Response) => {
-   const userId = res.locals.user.id;
-   req.body.userId = userId;
+   try {
+      await createPostSchema.validateAsync(req.body);
 
-   const post = await postService.create(req.body);
-   res.json(post);
+      console.log(req.file);
+      if (req.file) {
+         req.body.image = req.file.filename;
+      }
+
+      const userId = res.locals.user.id;
+      req.body.userId = userId;
+
+      const post = await postService.create(req.body);
+      res.json({
+         message: "Post created successfully",
+         data: post,
+      });
+   } catch (error) {
+      errorHandler(res, error as unknown as Error);
+   }
 };
 
 export const update = (req: Request, res: Response) => {

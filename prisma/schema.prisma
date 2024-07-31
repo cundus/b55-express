@@ -26,6 +26,7 @@ model Posts {
   id     Int     @id @default(autoincrement())
   title  String
   body   String?
+  image  String?
   userId Int
 
   author User @relation(fields: [userId], references: [id])

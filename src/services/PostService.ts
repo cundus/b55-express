@@ -8,7 +8,13 @@ export const findAll = async () => {
    return await db.posts.findMany({
       // join table
       include: {
-         author: true,
+         author: {
+            select: {
+               id: true,
+               username: true,
+               profile_pic: true,
+            },
+         },
       },
    });
 };
@@ -18,7 +24,13 @@ export const findById = async (id: number) => {
       where: { id },
       // join table
       include: {
-         author: true,
+         author: {
+            select: {
+               id: true,
+               username: true,
+               profile_pic: true,
+            },
+         },
       },
    });
 };
@@ -29,14 +41,17 @@ export const create = async (post: Posts) => {
    return newPost;
 };
 
-export const update = (index: number, post: PostModels) => {
-   posts[index] = post;
+export const update = async (id: number, post: PostModels) => {
+   const updatedPost = await db.posts.update({
+      data: post,
+      where: { id },
+   });
 
-   return post;
+   return updatedPost;
 };
 
-export const remove = (index: number) => {
-   posts.splice(index, 1);
+export const remove = async (id: number) => {
+   await db.posts.delete({ where: { id } });
 
    return "deleted";
 };
