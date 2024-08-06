@@ -8,7 +8,7 @@ import ERROR from "../utils/constants/ERROR_LIST";
 export const login = async (username: string, password: string) => {
    const existedUser = await db.user.findFirst({
       where: {
-         username: username,
+         OR: [{ username: username }, { email: username }],
       },
    });
 

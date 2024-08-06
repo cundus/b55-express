@@ -31,6 +31,8 @@ export const create = async (req: Request, res: Response) => {
          data: post,
       });
    } catch (error) {
+      console.log(error);
+
       errorHandler(res, error as unknown as Error);
    }
 };

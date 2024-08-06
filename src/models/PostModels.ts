@@ -1,4 +1,4 @@
 export interface PostModels {
-   title: string;
-   body: string;
+   content: string;
+   userId: number;
 }

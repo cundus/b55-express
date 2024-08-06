@@ -17,22 +17,26 @@ model User {
   id          Int     @id @default(autoincrement())
   username    String
   password    String
+  email       String?
+  fullName    String?
   profile_pic String?
 
   posts Posts[]
+  liked Like[]
 }
 
 model Posts {
-  id       Int     @id @default(autoincrement())
-  title    String
-  body     String?
-  userId   Int
-  parentId Int?
+  id        Int      @id @default(autoincrement())
+  content   String?
+  createdAt DateTime @default(now())
+  userId    Int
+  parentId  Int?
 
   post     Posts?      @relation("PostReplies", fields: [parentId], references: [id])
   comments Posts[]     @relation("PostReplies")
   author   User        @relation(fields: [userId], references: [id])
   images   PostImage[]
+  likes    Like[]
 }
 
 model PostImage {
@@ -40,4 +44,13 @@ model PostImage {
   image  String
   postId Int
   post   Posts  @relation(fields: [postId], references: [id])
+}
+
+model Like {
+  userId Int
+  postId Int
+  user   User  @relation(fields: [userId], references: [id])
+  post   Posts @relation(fields: [postId], references: [id])
+
+  @@id([userId, postId])
 }

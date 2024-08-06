@@ -45,7 +45,9 @@ export const create = async (post: IPosts) => {
       data: {
          ...post,
          images: {
-            create: post.images.map((image) => ({ image: image.filename })),
+            create:
+               post.images &&
+               post.images.map((image) => ({ image: image.filename })),
          },
       },
    });
